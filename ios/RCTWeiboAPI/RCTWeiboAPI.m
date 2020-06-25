@@ -96,7 +96,9 @@ RCT_EXPORT_METHOD(shareToWeibo:(NSDictionary *)aData
             size = CGSizeMake(80,80);
         }
         [_bridge.imageLoader loadImageWithURLRequest:[RCTConvert NSURLRequest:imageUrl] size:size scale:1 clipped:FALSE resizeMode:UIViewContentModeScaleToFill progressBlock:nil partialLoadBlock: nil completionBlock:^(NSError *error, UIImage *image) {
-            [self _shareWithData:aData image:image];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self _shareWithData:aData image:image];
+            })
         }];
     }
     else {
